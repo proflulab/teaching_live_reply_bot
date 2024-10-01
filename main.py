@@ -21,16 +21,18 @@ import re
 
 data_list = []  # 这里定义一个全局变量来存储数据
 
-path_cookie = "douyin_cookie.pickle"
+current_dir = os.path.dirname(os.path.abspath(__file__))
+path_cookie = os.path.join(current_dir, "public/other/douyin_cookie.pickle")
+path_data_excel = os.path.join(current_dir, "public/excel/data.xlsx")
 
 load_dotenv()  # 加载 .env 文件
 
-DOUYIN_LIVE_URL = os.getenv('DOUYIN_LIVE_URL')
-DOUYIN_URL = os.getenv('DOUYIN_URL')
-DOUYIN_ROOM = os.getenv('DOUYIN_ROOM')
+DOUYIN_LIVE_URL = os.getenv('DOUYIN_LIVE_URL') or 'https://live.douyin.com/'
+DOUYIN_URL = os.getenv('DOUYIN_URL') or 'https://www.douyin.com/'
+DOUYIN_ROOM = os.getenv('DOUYIN_ROOM') or '741682777632'
 
-COZE_BOT_ID = os.getenv('COZE_BOT_ID')
-COZE_AUTH = os.getenv('COZE_AUTH')
+COZE_BOT_ID = os.getenv('COZE_BOT_ID') or '739612312322'
+COZE_AUTH = os.getenv('COZE_AUTH') or 'pat_8RRGfabcdefgs4zMD'
 
 
 def create_web(headless=False):  # 初始化浏览器, 并打开
@@ -345,13 +347,13 @@ def run_main_thread():  # 主运行部分
 
                         clean_message = remove_non_bmp_characters(result)  # 删除特殊符号
                         # 发送信息到抖音
-                        send_message(clean_message)  # 去除特殊符号在发送
+                        # send_message(clean_message)  # 去除特殊符号在发送
 
                         # 将用户信息以及机器人回复储存到data_list
                         data_list[data_list_round_count][2:4] = [first_three_chars, result]
 
                         # 将用户信息以及机器人回复储存到Excel
-                        append_to_excel('data.xlsx', user_name, comment, first_three_chars, result)
+                        append_to_excel(path_data_excel, user_name, comment, first_three_chars, result)
                         print(result)
 
                     else:
@@ -359,7 +361,7 @@ def run_main_thread():  # 主运行部分
                         data_list[data_list_round_count][2] = first_three_chars
 
                         # 将用户信息以及机器人回复储存到Excel
-                        append_to_excel('data.xlsx', user_name, comment, first_three_chars, "")
+                        append_to_excel(path_data_excel, user_name, comment, first_three_chars, "")
 
                     data_list_round_count += 1
 
@@ -385,13 +387,13 @@ def user_typ_transfer(data_list_round_count):  # 获取并且转换列表内的�
     return user_name, comment
 
 
-def append_to_excel(file_path, username, user_comment, judgment_question, bot_reply):  # 储存信息到Excel
+def append_to_excel(data_file_path, username, user_comment, judgment_question, bot_reply):  # 储存信息到Excel
     # file_path是文件名称，username是抖音用户名称，user_comment是用户评论，bot_reply是机器人回复
 
     # 检查文件是否存在
-    if os.path.exists(file_path):
+    if os.path.exists(data_file_path):
         # 如果文件存在，从 Excel 中加载数据
-        df = pd.read_excel(file_path, engine='openpyxl')
+        df = pd.read_excel(data_file_path, engine='openpyxl')
     else:
         # 如果文件不存在，创建一个新的 DataFrame
         df = pd.DataFrame(columns=['用户名', '用户评论', '判断问句', '客服回复'])
@@ -411,7 +413,7 @@ def append_to_excel(file_path, username, user_comment, judgment_question, bot_re
     df = pd.concat([df, new_df], ignore_index=True)
 
     # 将 DataFrame 保存到 Excel 文件
-    df.to_excel(file_path, index=False, engine='openpyxl')
+    df.to_excel(data_file_path, index=False, engine='openpyxl')
 
 
 def main():  # 启动双线程
