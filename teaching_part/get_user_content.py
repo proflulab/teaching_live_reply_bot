@@ -6,15 +6,11 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-
-import json
-from urllib import request, error
 import threading
 
 import pandas as pd
 import os
 
-import re
 
 data_list = []  # 这里定义一个全局变量来存储数据
 
