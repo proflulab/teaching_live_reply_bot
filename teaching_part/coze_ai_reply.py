@@ -38,7 +38,7 @@ def main_req(user_text, user_token, bot_id):  # 向coze机器人客服发送信�
             response_data = response.read()
             # Decode JSON response
             response_json = json.loads(response_data.decode())
-            print(response_json)
+            # print(response_json)  打印演示内容
 
             # 遍历消息列表，找到第一个类型为 'answer' 的消息
             for message in response_json.get('messages', []):
