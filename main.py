@@ -102,7 +102,7 @@ def send_message(message):  # 向抖音直播间发送信息
         time.sleep(0.5)
 
         # 按下 Enter 键发送消息
-        text_element.send_keys(Keys.RETURN)
+        # text_element.send_keys(Keys.RETURN)
     except Exception as e:
         print(f"发送消息时发生错误: {e}")
 
@@ -284,7 +284,7 @@ def run_main_thread():  # 主运行部分
 
                         clean_message = remove_non_bmp_characters(result)  # 删除特殊符号
                         # 发送信息到抖音
-                        # send_message(clean_message)  # 去除特殊符号在发送
+                        send_message(clean_message)  # 去除特殊符号在发送
 
                         # 将用户信息以及机器人回复储存到data_list
                         data_list[data_list_round_count][2:4] = [first_three_chars, result]
