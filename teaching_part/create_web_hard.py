@@ -5,7 +5,7 @@ import time
 
 # 填写chromedriver的目录, 此处使用了相对路径(如果无法正常运行请下载chromedriver)
 # chromedriver_path = Service('../public/drivers/chromedriver.exe')
-chromedriver_path = ""  # 默认路径
+chromedriver_path = Service("")  # 默认路径
 
 
 def create_web():  # 打开浏览器
