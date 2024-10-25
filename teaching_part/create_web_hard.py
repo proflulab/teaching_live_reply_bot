@@ -4,14 +4,14 @@ from selenium.webdriver.chrome.service import Service
 import time
 
 # 填写chromedriver的目录, 此处使用了相对路径(如果无法正常运行请下载chromedriver)
-# service = Service('../public/drivers/chromedriver.exe')
-service = ""  # 默认路径
+# chromedriver_path = Service('../public/drivers/chromedriver.exe')
+chromedriver_path = ""  # 默认路径
 
 
 def create_web():  # 打开浏览器
     options = Options()
     options.add_argument("--start-maximized")  # 启动时最大化窗口
-    return webdriver.Chrome(service=service, options=options)  # 默认使用chromedriver的系统路径
+    return webdriver.Chrome(service=chromedriver_path, options=options)  # 默认使用chromedriver的系统路径
 
 
 # 创建Chrome浏览器实例
