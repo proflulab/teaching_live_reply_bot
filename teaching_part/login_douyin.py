@@ -3,7 +3,12 @@ import time
 import pickle
 from dotenv import load_dotenv
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
 import os
+
+# 填写chromedriver的目录, 此处使用了相对路径(如果无法正常运行请下载chromedriver)
+# chromedriver_path = Service('../public/drivers/chromedriver.exe')
+chromedriver_path = Service("")  # 默认路径
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 path_cookie = os.path.join(current_dir, "../public/other/douyin_cookie.pickle")
@@ -24,7 +29,7 @@ def create_web(headless=False):  # 初始化浏览器, 并打开
     options.add_argument('--disable-dev-shm-usage')
 
     # 创建Chrome浏览器实例
-    chrome = webdriver.Chrome(options=options)  # 默认使用chromedriver的系统路径
+    chrome = webdriver.Chrome(service=chromedriver_path, options=options)  # 默认使用chromedriver的系统路径
 
     # 打开抖音网站
     chrome.get(DOUYIN_URL)
