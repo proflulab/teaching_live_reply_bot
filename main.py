@@ -40,7 +40,7 @@ COZE_BOT_JUDGMENT_ID = os.getenv('COZE_BOT_JUDGMENT_ID') or '739612312322'
 COZE_AUTH = os.getenv('COZE_AUTH') or 'pat_8RRGfabcdefgs4zMD'
 
 
-def create_web(headless=False):  # 初始化浏览器, 并打开
+def create_web():  # 初始化浏览器, 并打开
 
     # 创建Chrome浏览器实例
     chrome = webdriver.Chrome(service=chromedriver_path)  # 默认使用chromedriver的系统路径
@@ -365,7 +365,7 @@ def main():  # 启动双线程
 
 if __name__ == '__main__':
     # 创建Chrome浏览器实例
-    chrome = create_web(headless=False)
+    chrome = create_web()
 
     # 自定义您要进入的直播间链接
     chrome.get(DOUYIN_LIVE_URL + DOUYIN_ROOM)  # 李宁直播间

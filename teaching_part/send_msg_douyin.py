@@ -95,7 +95,7 @@ def main():  # 启动双线程
 
 if __name__ == '__main__':
     # 创建Chrome浏览器实例
-    chrome = create_web(headless=False)
+    chrome = create_web()
 
     # 自定义您要进入的直播间链接
     chrome.get(DOUYIN_LIVE_URL + DOUYIN_ROOM)  # 李宁直播间
