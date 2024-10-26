@@ -20,16 +20,10 @@ DOUYIN_URL = os.getenv('DOUYIN_URL') or 'https://www.douyin.com/'
 DOUYIN_ROOM = os.getenv('DOUYIN_ROOM') or '741682777632'
 
 
-def create_web(headless=False):  # 初始化浏览器, 并打开
-    options = Options()
-    if headless:
-        options.add_argument('--headless')
-    options.add_argument('--disable-gpu')
-    options.add_argument('--no-sandbox')
-    options.add_argument('--disable-dev-shm-usage')
+def create_web():  # 初始化浏览器, 并打开
 
     # 创建Chrome浏览器实例
-    chrome = webdriver.Chrome(service=chromedriver_path, options=options)  # 默认使用chromedriver的系统路径
+    chrome = webdriver.Chrome(service=chromedriver_path)  # 默认使用chromedriver的系统路径
 
     # 打开抖音网站
     chrome.get(DOUYIN_URL)
@@ -72,7 +66,7 @@ def load_cookies(driver, cookie_path):  # 加载 Cookie 文件
 
 # print(f"加载的 Cookie 文件路径: {path_cookie}")  # 打印 cookie 文件路径
 # 创建Chrome浏览器实例
-chrome = create_web(headless=False)
+chrome = create_web()
 
 chrome.get(DOUYIN_LIVE_URL + DOUYIN_ROOM)  # 李宁直播间
 
