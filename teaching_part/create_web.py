@@ -10,4 +10,7 @@ chromedriver_path = Service("")  # 默认路径
 chrome = webdriver.Chrome(service=chromedriver_path)
 chrome.get("https://www.douyin.com/")
 
-time.sleep(10)
+# 每隔10秒打印"网页正在运行"
+while True:
+    print("网页正在运行...")
+    time.sleep(10)
