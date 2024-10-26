@@ -25,16 +25,10 @@ DOUYIN_URL = os.getenv('DOUYIN_URL') or 'https://www.douyin.com/'
 DOUYIN_ROOM = os.getenv('DOUYIN_ROOM') or '741682777632'
 
 
-def create_web(headless=False):  # 初始化浏览器, 并打开
-    options = Options()
-    if headless:
-        options.add_argument('--headless')
-    options.add_argument('--disable-gpu')
-    options.add_argument('--no-sandbox')
-    options.add_argument('--disable-dev-shm-usage')
+def create_web():  # 初始化浏览器, 并打开
 
     # 创建Chrome浏览器实例
-    chrome = webdriver.Chrome(service=chromedriver_path, options=options)  # 默认使用chromedriver的系统路径
+    chrome = webdriver.Chrome(service=chromedriver_path)  # 默认使用chromedriver的系统路径
 
     # 打开抖音网站
     chrome.get(DOUYIN_URL)
