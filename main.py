@@ -41,15 +41,9 @@ COZE_AUTH = os.getenv('COZE_AUTH') or 'pat_8RRGfabcdefgs4zMD'
 
 
 def create_web(headless=False):  # 初始化浏览器, 并打开
-    options = Options()
-    if headless:
-        options.add_argument('--headless')
-    options.add_argument('--disable-gpu')
-    options.add_argument('--no-sandbox')
-    options.add_argument('--disable-dev-shm-usage')
 
     # 创建Chrome浏览器实例
-    chrome = webdriver.Chrome(service=chromedriver_path, options=options)  # 默认使用chromedriver的系统路径
+    chrome = webdriver.Chrome(service=chromedriver_path)  # 默认使用chromedriver的系统路径
 
     # 打开抖音网站
     chrome.get(DOUYIN_URL)
