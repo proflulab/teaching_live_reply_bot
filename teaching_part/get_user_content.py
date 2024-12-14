@@ -30,48 +30,12 @@ DOUYIN_URL = os.getenv('DOUYIN_URL') or 'https://www.douyin.com/'
 DOUYIN_ROOM = os.getenv('DOUYIN_ROOM') or '741682777632'
 
 
-def create_web():  # 初始化浏览器, 并打开
+def create_web():  # 初始化浏览器, 并打开抖音首页
+    chrome_open = webdriver.Chrome(service=chromedriver_path)
+    chrome_open.get("https://www.douyin.com/")
 
-    # 创建Chrome浏览器实例
-    chrome = webdriver.Chrome(service=chromedriver_path)  # 默认使用chromedriver的系统路径
-
-    # 打开抖音网站
-    chrome.get(DOUYIN_URL)
-
-    # 调用加载 Cookie 文件
-    if os.path.exists(path_cookie):
-        # 加载 Cookie 文件
-        load_cookies(chrome, path_cookie)
-    else:
-        # 保存 Cookie 文件到本地
-        save_cookies(chrome, path_cookie)
-
-        # 加载 Cookie 文件
-        load_cookies(chrome, path_cookie)
-
-    return chrome
-
-
-def save_cookies(driver, cookie_path):  # 保存 Cookie 文件
-    # 保存 Cookie 文件
-
-    # 等待用户手动登录
-    time.sleep(1)
-    input("登入抖音账号后，请输入任意键继续...")
-    time.sleep(0.3)
-
-    # 保存 Cookies 到文件
-    with open(cookie_path, 'wb') as file:
-        pickle.dump(driver.get_cookies(), file)
-
-
-def load_cookies(driver, cookie_path):  # 加载 Cookie 文件
-    # 加载 Cookie 文件
-    with open(cookie_path, 'rb') as file:
-        cookies_list = pickle.load(file)
-
-    for cookie in cookies_list:
-        driver.add_cookie(cookie)
+    # 返回创建的实例
+    return chrome_open
 
 
 def monitor_screen():  # 获取用户在抖音直播间发送的信息
@@ -146,46 +110,38 @@ def monitor_screen():  # 获取用户在抖音直播间发送的信息
         print(f"监控公屏时发生错误: {e}")
 
 
-def append_to_excel(data_file_path, username, user_comment, judgment_question, bot_reply):  # 储存信息到Excel
-    # file_path是文件名称，username是抖音用户名称，user_comment是用户评论，bot_reply是机器人回复
-
-    # 检查文件是否存在
-    if os.path.exists(data_file_path):
-        # 如果文件存在，从 Excel 中加载数据
-        df = pd.read_excel(data_file_path, engine='openpyxl')
-    else:
-        # 如果文件不存在，创建一个新的 DataFrame
-        df = pd.DataFrame(columns=['用户名', '用户评论', '判断问句', '客服回复'])
-
-    # 新数据
-    new_data = {
-        '用户名': [username],
-        '用户评论': [user_comment],
-        '判断问句': [judgment_question],
-        '客服回复': [bot_reply]
-    }
-
-    # 将新数据转换为 DataFrame
-    new_df = pd.DataFrame(new_data)
-
-    # 将新数据追加到 DataFrame
-    df = pd.concat([df, new_df], ignore_index=True)
-
-    # 将 DataFrame 保存到 Excel 文件
-    df.to_excel(data_file_path, index=False, engine='openpyxl')
-
-
-def main():  # 启动双线程
-    # 启动线程
-    thread1 = threading.Thread(target=monitor_screen, name="MonitorScreen")
-
-    global data_list  # 用于处理用户回复
-    data_list = []  # 清空数据列表
-
-    thread1.start()
+# def append_to_excel(data_file_path, username, user_comment, judgment_question, bot_reply):  # 储存信息到Excel
+#     # file_path是文件名称，username是抖音用户名称，user_comment是用户评论，bot_reply是机器人回复
+#
+#     # 检查文件是否存在
+#     if os.path.exists(data_file_path):
+#         # 如果文件存在，从 Excel 中加载数据
+#         df = pd.read_excel(data_file_path, engine='openpyxl')
+#     else:
+#         # 如果文件不存在，创建一个新的 DataFrame
+#         df = pd.DataFrame(columns=['用户名', '用户评论', '判断问句', '客服回复'])
+#
+#     # 新数据
+#     new_data = {
+#         '用户名': [username],
+#         '用户评论': [user_comment],
+#         '判断问句': [judgment_question],
+#         '客服回复': [bot_reply]
+#     }
+#
+#     # 将新数据转换为 DataFrame
+#     new_df = pd.DataFrame(new_data)
+#
+#     # 将新数据追加到 DataFrame
+#     df = pd.concat([df, new_df], ignore_index=True)
+#
+#     # 将 DataFrame 保存到 Excel 文件
+#     df.to_excel(data_file_path, index=False, engine='openpyxl')
 
 
 if __name__ == '__main__':
+    global data_list  # 用于处理用户回复
+
     # 创建Chrome浏览器实例
     chrome = create_web()
 
@@ -193,5 +149,5 @@ if __name__ == '__main__':
     chrome.get(DOUYIN_LIVE_URL + DOUYIN_ROOM)  # 李宁直播间
     # chrome.get('https://live.douyin.com/509601340564')  # 陆教授直播间
 
-    # 启动主程序
-    main()
+    # 开始获取直播间品论
+    monitor_screen()
