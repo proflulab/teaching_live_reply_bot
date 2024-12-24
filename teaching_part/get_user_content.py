@@ -39,6 +39,7 @@ def create_web():  # 初始化浏览器, 并打开抖音首页
 
 
 def monitor_screen():  # 获取用户在抖音直播间发送的信息
+    global data_list  # 用于处理用户回复
     last_data_id = None  # 用于存储上一个 `data-id`
 
     try:
@@ -140,7 +141,6 @@ def monitor_screen():  # 获取用户在抖音直播间发送的信息
 
 
 if __name__ == '__main__':
-    global data_list  # 用于处理用户回复
 
     # 创建Chrome浏览器实例
     chrome = create_web()
